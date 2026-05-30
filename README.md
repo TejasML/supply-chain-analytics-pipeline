@@ -166,7 +166,7 @@ Model achieves 88.7% accuracy on historical revenue data, making it reliable for
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/supply-chain-analytics-pipeline.git
+git clone https://github.com/TejasMl/supply-chain-analytics-pipeline.git
 cd supply-chain-analytics-pipeline
 ```
 
