@@ -21,9 +21,21 @@ An end-to-end supply chain analytics pipeline built on 100K+ real Brazilian e-co
 
 ## 🏗️ Architecture
 
-Raw CSV files are cleaned and feature-engineered in Python, then pushed to MySQL via SQLAlchemy as staging tables. A Star Schema Data Warehouse is designed in MySQL using fact and dimension tables to support business intelligence reporting and analytics. SQL views and window functions form the analytics layer that Power BI consumes. A Linear Regression model pulls data from MySQL, forecasts the next 30 days of revenue, and stores predictions back to the database.
-
 ![Pipeline](images/architecture.png)
+
+The pipeline is structured into 4 layers:
+
+**1. Data Engineering Layer — Python & Pandas**
+8 raw CSV files are individually cleaned, missing values handled, duplicates removed, and key features engineered — delivery delay, lead time, total sales, and purchase time features. Cleaned data is pushed to MySQL via SQLAlchemy as staging tables.
+
+**2. Data Warehouse Layer — MySQL**
+Staging tables are transformed into a Star Schema consisting of one central fact table (fact_orders) and four dimension tables (dim_customer, dim_product, dim_seller, dim_date). Window functions and SQL views are built on top of the warehouse to power the analytics and BI layer.
+
+**3. Machine Learning Layer — Python & Scikit-Learn**
+A Linear Regression model pulls data directly from MySQL, trains on historical daily revenue, forecasts the next 30 days of demand, and stores the predictions back into MySQL as a forecast table.
+
+**4. Business Intelligence Layer — Power BI**
+Power BI connects exclusively to MySQL and consumes fact tables, dimension tables, and views to render a 3-page executive dashboard with interactive slicers and DAX measures.
 
 ### Star Schema Design
 
@@ -90,12 +102,22 @@ supply-chain-analytics-pipeline/
 ## 📊 Dashboard
 
 ### Page 1 — Sales Overview
+Provides a high-level view of overall business performance. KPI cards show total revenue, total orders, average order value, and total products sold. A monthly revenue trend line tracks growth over time, a bar chart ranks the top 10 product categories by revenue, a donut chart breaks down payment type distribution, and a map visual shows revenue concentration by seller state across Brazil.
+
 ![Sales Overview](images/dashboard_page1.png)
 
+---
+
 ### Page 2 — Delivery Performance & Customer Satisfaction
+Focuses on operational and logistics performance. KPI cards show on-time delivery rate, total late orders, average lead time, and average early delivery days. A bar chart identifies the top 10 states by late order count, a horizontal bar chart highlights which product categories have the most late deliveries, a line chart tracks monthly late order trends over time, and a bar chart shows customer review score distribution.
+
 ![Delivery Performance](images/dashboard_page2.png)
 
+---
+
 ### Page 3 — Revenue Forecast & Demand Planning
+Presents the output of the Linear Regression forecasting model. KPI cards display total forecast revenue, peak predicted daily revenue, peak purchasing hour, and forecast period. A detailed table lists daily predicted revenue for the next 30 days, a bar chart shows the top high-demand product categories by historical revenue, and a bar chart of peak purchasing hours helps identify when customers are most active.
+
 ![Revenue Forecast](images/dashboard_page3.png)
 
 ---
@@ -128,6 +150,18 @@ supply-chain-analytics-pipeline/
 
 ---
 
+## 🤖 ML Model Performance
+
+| Metric | Score | Meaning |
+|---|---|---|
+| R² Score | 0.887 | Model explains 88.7% of revenue variance |
+| MAE | 3269.5 | Average prediction error of R$ 3,269 per day |
+| RMSE | 4301.55 | Root mean squared error of R$ 4,301 |
+
+Model achieves 88.7% accuracy on historical revenue data, making it reliable for short-term demand planning.
+
+---
+
 ## ⚙️ How To Run
 
 ### 1. Clone the repository
@@ -145,15 +179,21 @@ pip install -r requirements.txt
 Download from [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) and place CSV files in a local `data/raw/` folder.
 
 ### 4. Configure database credentials
-Create a `.env` file in the project root with your MySQL credentials. Refer to `.env.example` for the required variables.
+Create a `.env` file in the project root with your MySQL credentials.
 
-### 5. Run notebooks in order
+### 5. Create MySQL database
+```sql
+CREATE DATABASE supply_chain_dw;
+USE supply_chain_dw;
+```
+
+### 6. Run notebooks in order
 ```
 1. notebooks/Data_Cleaning.ipynb
 2. notebooks/Sales_Forecasting.ipynb
 ```
 
-### 6. Run SQL files in order
+### 7. Run SQL files in order
 Open MySQL Workbench and execute files from the `sql/` folder in numerical order (01 → 08).
 
 ---
