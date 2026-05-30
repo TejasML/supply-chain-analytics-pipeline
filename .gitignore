@@ -3,6 +3,18 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+
+# Environment Variables
+.env
+
+# Dataset Files
+Dataset/
+data/
+
+# Power BI File
+supply_chain_analytics_dashboard.pbix
+
+
 # C extensions
 *.so
 
