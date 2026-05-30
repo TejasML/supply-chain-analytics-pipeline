@@ -201,5 +201,5 @@ Open MySQL Workbench and execute files from the `sql/` folder in numerical order
 ## 👤 Author
 
 **Your Name**
-- 🔗 [LinkedIn](https://linkedin.com/in/yourprofile)
-- 🐙 [GitHub](https://github.com/yourusername)
+- 🔗 [LinkedIn](https://www.linkedin.com/in/tejas-salunkhe05)
+- 🐙 [GitHub](https://github.com/TejasML)
