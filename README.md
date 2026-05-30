@@ -200,6 +200,6 @@ Open MySQL Workbench and execute files from the `sql/` folder in numerical order
 
 ## 👤 Author
 
-**Your Name**
+**Tejas Salunkhe**
 - 🔗 [LinkedIn](https://www.linkedin.com/in/tejas-salunkhe05)
 - 🐙 [GitHub](https://github.com/TejasML)
