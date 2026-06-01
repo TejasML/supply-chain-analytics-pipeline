@@ -158,7 +158,7 @@ Presents the output of the Linear Regression forecasting model. KPI cards displa
 | MAE | 3269.5 | Average prediction error of R$ 3,269 per day |
 | RMSE | 4301.55 | Root mean squared error of R$ 4,301 |
 
-Model achieves 88.7% accuracy on historical revenue data, making it reliable for short-term demand planning.
+Model explains 88.7% of revenue variance on historical revenue data, making it reliable for short-term demand planning.
 
 ---
 
